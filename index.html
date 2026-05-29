@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Agendar Reuniao - Renan Baptistella</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Nunito,sans-serif;background:#f0f2f7;min-height:100vh}
+.hdr{background:#22367b;padding:0 32px;display:flex;align-items:center;justify-content:space-between;min-height:72px}
+.hdr img{height:40px;object-fit:contain}
+.hr{text-align:right}.hn{color:#fff;font-weight:800;font-size:17px;line-height:1.2}.hs{color:rgba(255,255,255,.75);font-size:13px;margin-top:2px}
+.wrap{max-width:700px;margin:0 auto;padding:28px 16px}
+.card{background:#fff;border-radius:12px;padding:22px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.ttl{font-size:15px;font-weight:800;color:#22367b;margin-bottom:14px}
+label{font-size:12px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:6px}
+input{width:100%;padding:9px 12px;border:1.5px solid #d1d5db;border-radius:8px;font-size:14px;font-family:inherit;outline:none}
+.btn{padding:11px 22px;border-radius:8px;border:none;cursor:pointer;font-weight:700;font-size:14px;font-family:inherit;background:#22367b;color:#fff}
+.btn:disabled{opacity:.4;cursor:default}
+.back{padding:10px 20px;border-radius:8px;border:1px solid #e5e7eb;background:#f9fafb;cursor:pointer;font-weight:700;font-size:14px;font-family:inherit;color:#6b7280}
+.tc{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:10px;margin-bottom:8px;border:2px solid #e5e7eb;cursor:pointer;user-select:none;transition:all .15s}
+.tc:hover{border-color:#22367b;background:#eff6ff}.tc.sel{border-color:#22367b;background:#eff6ff}
+.tc .tn{font-weight:700;font-size:14px;color:#374151}.tc.sel .tn{color:#22367b}
+.tc .td{font-size:13px;color:#6b7280;white-space:nowrap;margin-left:12px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cc{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:13px;font-weight:500;cursor:default;border:2px solid transparent;user-select:none}
+.av{background:#f0fdf4;color:#166534;cursor:pointer;font-weight:700}.av:hover{background:#dcfce7}
+.sl{background:#22367b!important;color:#fff!important;border-color:#22367b!important;font-weight:800}
+.td2{background:#eff6ff;color:#22367b;border-color:#bfdbfe;font-weight:700}
+.em{color:#d1d5db}
+.ts{padding:9px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;background:#f0f9ff;color:#0369a1;border:2px solid #bae6fd;font-family:inherit;user-select:none;display:inline-block;margin:4px}
+.ts.sel{background:#22367b;color:#fff;border-color:#22367b}
+.info{background:#eff6ff;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#22367b;font-weight:600}
+.succ{background:#ecfdf5;border:2px solid #6ee7b7;border-radius:12px;padding:32px;text-align:center}
+.err{color:#dc2626;font-size:13px;margin-top:10px;display:none}
+.hd{display:none}.frow{display:flex;flex-direction:column;gap:12px}
+.cnav{display:flex;gap:6px;align-items:center}
+.cnav button{padding:5px 10px;border-radius:6px;border:1px solid #e5e7eb;background:#f9fafb;cursor:pointer;font-family:inherit;font-size:14px}
+.loading{text-align:center;padding:24px 0;color:#6b7280;font-size:13px}
+.meet-box{margin-top:12px;background:#eff6ff;border-radius:8px;padding:10px 14px;font-size:13px}
+.meet-box-title{font-weight:700;color:#22367b;margin-bottom:6px}
+.meet-row{display:flex;align-items:center;gap:8px}
+.meet-link{flex:1;word-break:break-all;color:#22367b;font-size:13px}
+.copy-btn{flex-shrink:0;padding:6px 14px;border-radius:6px;border:1.5px solid #d3e2f2;background:#fff;color:#22367b;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <img src="https://i.imgur.com/IVPOWqc.png" alt="ClipEscola" onerror="this.style.display='none'">
+  <div class="hr"><div class="hn">Renan Baptistella</div><div class="hs">Customer Success Manager</div></div>
+</div>
+<div class="wrap">
+  <div id="s1" class="card">
+    <div class="ttl">Qual tipo de reuniao deseja agendar?</div>
+    <div id="type-list">
+      <div class="tc" id="tc0"><span class="tn">Reunião de Treinamento</span><span class="td">(2 horas)</span></div>
+      <div class="tc" id="tc1"><span class="tn">Reunião de Alinhamento</span><span class="td">(1 hora)</span></div>
+    </div>
+    <button class="btn" id="btn1" disabled style="margin-top:8px">Proximo</button>
+  </div>
+  <div id="s2" class="card hd">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div class="ttl" style="margin:0">Escolha a data e horario</div>
+      <div class="cnav"><button id="prev-m">&#8249;</button><span id="cal-lbl" style="font-size:13px;font-weight:700;min-width:110px;text-align:center"></span><button id="next-m">&#8250;</button></div>
+    </div>
+    <div id="cal-wrap"></div>
+    <div id="tw" class="hd" style="margin-top:16px"><div id="tl" style="font-size:13px;font-weight:700;color:#6b7280;margin-bottom:8px"></div><div id="times" style="display:flex;flex-wrap:wrap;gap:4px"></div></div>
+    <div style="display:flex;gap:10px;margin-top:16px"><button class="back" id="back2">&#8592; Voltar</button><button class="btn" id="btn2" disabled>Proximo</button></div>
+  </div>
+  <div id="s3" class="card hd">
+    <div class="ttl">Preencha seus dados</div>
+    <div class="info" id="ibar"></div>
+    <div class="frow">
+      <div><label>Nome da Escola *</label><input id="fi-school" placeholder="Ex: Colegio Sao Paulo"></div>
+      <div><label>Nome do Responsavel *</label><input id="fi-contact" placeholder="Ex: Joao Silva"></div>
+      <div><label>E-mail *</label><input id="fi-email" type="email" placeholder="joao@escola.com.br"></div>
+      <div><label>Telefone/WhatsApp *</label><input id="fi-phone" placeholder="(11) 99999-0000"></div>
+      <div><label>Outros participantes (opcional)</label><input id="fi-guests" placeholder="e-mails separados por virgula"></div>
+    </div>
+    <div id="ferr" class="err">Preencha todos os campos obrigatorios.</div>
+    <div style="display:flex;gap:10px;margin-top:16px"><button class="back" id="back3">&#8592; Voltar</button><button class="btn" id="btn3">Confirmar agendamento</button></div>
+  </div>
+  <div id="succ" class="succ hd">
+    <div style="font-size:44px;margin-bottom:10px">&#9989;</div>
+    <div style="font-size:18px;font-weight:800;color:#057a55;margin-bottom:6px">Reuniao agendada com sucesso!</div>
+    <div id="sd" style="color:#6b7280;font-size:14px"></div>
+    <p style="margin-top:6px;color:#6b7280;font-size:13px">Voce recebera um convite no e-mail em breve.</p>
+    <button class="btn" style="margin-top:16px" id="succ-btn">Novo agendamento</button>
+  </div>
+</div>
+<script>
+var WV="https://n8n.clipescola.com.br/webhook/verificar-csm";
+var WA="https://n8n.clipescola.com.br/webhook/agendar-csm";
+var CSM_N="Renan Baptistella";
+var CSM_E="renan.clipescola@gmail.com";
+var CSM_ICS="https://calendar.google.com/calendar/ical/renan.clipescola%40gmail.com/private-0b24ae0debef4bc4bbc595f6e5912f23/basic.ics";
+var SHEET="1rwNkmBUlOjfUHbIbHpyHiLfou8tYyJfQbZtz0dwjgwA";
+var MTYPES=[{"id":"mt1","label":"Reunião de Treinamento","duration":120},{"id":"mt2","label":"Reunião de Alinhamento","duration":60}];
+var SBT={"mt1":[{"day":1,"time":"09:30"},{"day":1,"time":"14:30"},{"day":2,"time":"09:00"},{"day":2,"time":"14:30"},{"day":3,"time":"09:30"},{"day":3,"time":"14:30"},{"day":4,"time":"09:00"},{"day":4,"time":"14:30"},{"day":5,"time":"09:30"},{"day":5,"time":"14:00"}],"mt2":[{"day":1,"time":"09:30"},{"day":1,"time":"14:30"},{"day":2,"time":"09:00"},{"day":2,"time":"14:30"},{"day":3,"time":"09:30"},{"day":3,"time":"14:30"},{"day":4,"time":"09:00"},{"day":4,"time":"14:30"},{"day":5,"time":"09:30"},{"day":5,"time":"14:00"}]};
+var currentFreeDays={};
+var cy=new Date().getFullYear(),cm=new Date().getMonth();
+var selDate='',selTime='',typeId='',typeName='',typeDur=0;
+var MONTHS=['janeiro','fevereiro','marco','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+var DS=['Dom','Seg','Ter','Qua','Qui','Sex','Sab'];
+var DL=['domingo','segunda-feira','terca-feira','quarta-feira','quinta-feira','sexta-feira','sabado'];
+function fD(m){var h=Math.floor(m/60),r=m%60;return r?h+'h'+r+'min':h+' hora'+(h>1?'s':'');}
+function aM(t,m){var p=t.split(':'),v=+p[0]*60+ +p[1]+m;return ('0'+Math.floor(v/60)).slice(-2)+':'+('0'+(v%60)).slice(-2);}
+function pad(n){return ('0'+n).slice(-2);}
+function show(id){['s1','s2','s3','succ'].forEach(function(s){document.getElementById(s).classList.add('hd')});document.getElementById(id).classList.remove('hd');}
+function pickType(i){var mt=MTYPES[i];if(!mt)return;document.querySelectorAll('.tc').forEach(function(x){x.classList.remove('sel')});var el=document.getElementById('tc'+i);if(el)el.classList.add('sel');typeId=mt.id;typeDur=mt.duration;typeName=mt.label;document.getElementById('btn1').disabled=false;}
+function checkAndRenderMonth(){
+  var wrap=document.getElementById('cal-wrap');
+  wrap.innerHTML="<div class='loading'>&#9203; Verificando disponibilidade do mes...</div>";
+  document.getElementById('tw').classList.add('hd');
+  selDate='';selTime='';document.getElementById('btn2').disabled=true;
+  var minDate=new Date(Date.now()+48*60*60*1000);minDate.setHours(0,0,0,0);
+  var dim=new Date(cy,cm+1,0).getDate(),promises=[];
+  for(var d=1;d<=dim;d++){
+    var dt=new Date(cy,cm,d);if(dt<minDate)continue;
+    var dow=dt.getDay();
+    var ds=(SBT[typeId]||[]).filter(function(s){return s.day===dow;});
+    if(!ds.length)continue;
+    var iso=cy+'-'+pad(cm+1)+'-'+pad(d);
+    (function(iso2,ds2){promises.push(
+      fetch(WV,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({csmEmail:CSM_E,icsUrl:CSM_ICS,date:iso2,duration:typeDur,slots:ds2,slaHours:48})})
+      .then(function(r){return r.json();})
+      .then(function(data){return{iso:iso2,free:(data.slots||[]).length>0};})
+      .catch(function(){return{iso:iso2,free:true};})
+    );})(iso,ds);
+  }
+  Promise.all(promises).then(function(res){
+    var fd={};res.forEach(function(r){if(r.free)fd[r.iso]=true;});
+    currentFreeDays=fd;renderCal(fd);
+  });
+}
+function renderCal(fd){
+  currentFreeDays=fd||{};
+  document.getElementById('cal-lbl').textContent=MONTHS[cm].charAt(0).toUpperCase()+MONTHS[cm].slice(1)+' '+cy;
+  var first=new Date(cy,cm,1).getDay(),days=new Date(cy,cm+1,0).getDate();
+  var today=new Date();today.setHours(0,0,0,0);
+  var grid=document.createElement('div');grid.className='cal';
+  DS.forEach(function(d){var h=document.createElement('div');h.style.cssText='text-align:center;font-size:11px;font-weight:700;color:#6b7280;padding:4px 0';h.textContent=d;grid.appendChild(h);});
+  for(var i=0;i<first;i++)grid.appendChild(document.createElement('div'));
+  for(var d=1;d<=days;d++){
+    var dt=new Date(cy,cm,d);
+    var iso=cy+'-'+pad(cm+1)+'-'+pad(d);
+    var isT=dt.getTime()===today.getTime();
+    var av=currentFreeDays[iso]===true;
+    var sel=iso===selDate;
+    var cell=document.createElement('div');
+    cell.className='cc'+(sel?' sl':isT&&!av?' td2':av?' av':' em');
+    cell.textContent=d;
+    if(av){(function(i2,dw){cell.addEventListener('click',function(){pickDate(i2,dw);});})(iso,dt.getDay());}
+    grid.appendChild(cell);
+  }
+  var w=document.getElementById('cal-wrap');w.innerHTML='';w.appendChild(grid);
+}
+function pickDate(iso,dow){
+  selDate=iso;selTime='';
+  document.getElementById('btn2').disabled=true;
+  renderCal(currentFreeDays);
+  document.getElementById('tw').classList.remove('hd');
+  var dt=new Date(iso+'T12:00:00');
+  document.getElementById('tl').textContent='Carregando horarios...';
+  document.getElementById('times').innerHTML='';
+  var ds=(SBT[typeId]||[]).filter(function(s){return s.day===dow;});
+  fetch(WV,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({csmEmail:CSM_E,icsUrl:CSM_ICS,date:iso,duration:typeDur,slots:ds,slaHours:48})})
+  .then(function(r){return r.json();})
+  .then(function(data){renderTimes((data.slots||[]).map(function(s){return s.time;}),dt);})
+  .catch(function(){renderTimes(ds.map(function(s){return s.time;}),dt);});
+}
+function renderTimes(free,dt){
+  document.getElementById('tl').textContent='Horarios - '+DL[dt.getDay()]+', '+dt.getDate()+' de '+MONTHS[dt.getMonth()];
+  var tc=document.getElementById('times');tc.innerHTML='';
+  if(!free.length){var sp=document.createElement('span');sp.style.cssText='color:#dc2626;font-size:13px';sp.textContent='Nenhum horario disponivel. Escolha outra data.';tc.appendChild(sp);return;}
+  free.forEach(function(t){
+    var b=document.createElement('div');b.className='ts';b.dataset.time=t;
+    b.innerHTML=t+" <span style='font-size:11px;opacity:.7'>ate "+aM(t,typeDur)+"</span>";
+    b.addEventListener('click',function(){document.querySelectorAll('.ts').forEach(function(x){x.classList.remove('sel');});this.classList.add('sel');selTime=this.dataset.time;document.getElementById('btn2').disabled=false;});
+    tc.appendChild(b);
+  });
+}
+function confirmar(){
+  var s=document.getElementById('fi-school').value.trim();
+  var c=document.getElementById('fi-contact').value.trim();
+  var e=document.getElementById('fi-email').value.trim();
+  var p=document.getElementById('fi-phone').value.trim();
+  var g=document.getElementById('fi-guests').value.trim();
+  var er=document.getElementById('ferr');
+  if(!s||!c||!e||!p){er.style.display='block';return;}
+  er.style.display='none';
+  var btn=document.getElementById('btn3');btn.disabled=true;btn.textContent='Aguarde...';
+  var payload={csm:CSM_N,csmEmail:CSM_E,icsUrl:CSM_ICS,sheetId:SHEET,date:selDate,time:selTime,endTime:aM(selTime,typeDur),meetingType:typeName,duration:typeDur,school:s,contact:c,email:e,phone:p,guests:g};
+  fetch(WA,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+  .then(function(r){return r.json();})
+  .then(function(resp){
+    show('succ');
+    var dt=new Date(selDate+'T12:00:00');
+    var ml=resp&&resp.meetLink;
+    var meetEl='';
+    if(ml){meetEl="<div class='meet-box'><div class='meet-box-title'>Link da reuniao</div><div class='meet-row'><span class='meet-link' id='meet-url'>"+ml+"</span><button class='copy-btn' id='copy-btn'>Copiar</button></div></div>";}
+    document.getElementById('sd').innerHTML='<strong>'+typeName+'</strong> com <strong>'+CSM_N+'</strong><br>'+dt.getDate()+' de '+MONTHS[dt.getMonth()]+' de '+cy+' as '+selTime+' - '+fD(typeDur)+meetEl;
+    var cb=document.getElementById('copy-btn');
+    if(cb&&ml){cb.addEventListener('click',function(){navigator.clipboard.writeText(ml).then(function(){cb.textContent='Copiado!';setTimeout(function(){cb.textContent='Copiar';},2000);}).catch(function(){var el=document.getElementById('meet-url');if(el){var r=document.createRange();r.selectNode(el);window.getSelection().removeAllRanges();window.getSelection().addRange(r);}});});}
+  })
+  .catch(function(){er.textContent='Erro ao enviar. Tente novamente.';er.style.display='block';btn.disabled=false;btn.textContent='Confirmar agendamento';});
+}
+document.addEventListener('DOMContentLoaded',function(){
+  MTYPES.forEach(function(mt,i){var el=document.getElementById('tc'+i);if(el)el.addEventListener('click',function(){pickType(i);});});
+  document.getElementById('btn1').addEventListener('click',function(){if(!this.disabled){show('s2');checkAndRenderMonth();}});
+  document.getElementById('btn2').addEventListener('click',function(){if(!this.disabled){show('s3');var dt=new Date(selDate+'T12:00:00');document.getElementById('ibar').textContent='Data: '+DL[dt.getDay()]+', '+dt.getDate()+' de '+MONTHS[dt.getMonth()]+' de '+dt.getFullYear()+' as '+selTime+' - '+typeName+' - '+fD(typeDur)+' - com '+CSM_N;}});
+  document.getElementById('btn3').addEventListener('click',confirmar);
+  document.getElementById('back2').addEventListener('click',function(){show('s1');});
+  document.getElementById('back3').addEventListener('click',function(){show('s2');checkAndRenderMonth();});
+  document.getElementById('prev-m').addEventListener('click',function(){cm--;if(cm<0){cm=11;cy--;}checkAndRenderMonth();});
+  document.getElementById('next-m').addEventListener('click',function(){cm++;if(cm>11){cm=0;cy++;}checkAndRenderMonth();});
+  document.getElementById('succ-btn').addEventListener('click',function(){location.href=location.pathname;});
+});
+</script>
+</body>
+</html>
