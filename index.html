@@ -7,9 +7,19 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Nunito,sans-serif;background:#f0f2f7;min-height:100vh}
-.hdr{background:#22367b;padding:0 32px;display:flex;align-items:center;justify-content:space-between;min-height:72px}
-.hdr img{height:40px;object-fit:contain}
-.hr{text-align:right}.hn{color:#fff;font-weight:800;font-size:17px;line-height:1.2}.hs{color:rgba(255,255,255,.75);font-size:13px;margin-top:2px}
+.hdr{background:#22367b;padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between}
+.hdr img{height:36px;object-fit:contain}
+.badge{background:rgba(255,202,38,.15);border:1px solid rgba(255,202,38,.4);color:#ffca26;font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:.5px;text-transform:uppercase}
+.hero{background:linear-gradient(135deg,#22367b 0%,#1a2d6b 100%);padding:48px 32px 56px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;width:320px;height:320px;border-radius:50%;background:rgba(255,202,38,.07);top:-80px;right:-80px}
+.hero-tag{display:inline-block;background:rgba(255,202,38,.15);border:1px solid rgba(255,202,38,.35);color:#ffca26;font-size:12px;font-weight:700;padding:5px 16px;border-radius:20px;letter-spacing:.5px;text-transform:uppercase;margin-bottom:14px}
+.hero h1{color:#fff;font-size:28px;font-weight:800;margin-bottom:8px}
+.hero p{color:rgba(255,255,255,.75);font-size:15px;max-width:480px;margin:0 auto 20px}
+.hero-csm{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.2);border-radius:30px;padding:8px 16px}
+.csm-av{width:32px;height:32px;border-radius:50%;background:#ffca26;display:flex;align-items:center;justify-content:center;font-weight:800;color:#22367b;font-size:14px}
+.csm-name{color:#fff;font-weight:700;font-size:13px;text-align:left}
+.csm-role{color:rgba(255,255,255,.65);font-size:11px;text-align:left}
+.tz-note{font-size:12px;color:#6b7280;margin-bottom:10px;display:flex;align-items:center;gap:4px}
 .wrap{max-width:700px;margin:0 auto;padding:28px 16px}
 .card{background:#fff;border-radius:12px;padding:22px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 .ttl{font-size:15px;font-weight:800;color:#22367b;margin-bottom:14px}
@@ -47,14 +57,24 @@ input{width:100%;padding:9px 12px;border:1.5px solid #d1d5db;border-radius:8px;f
 <body>
 <div class="hdr">
   <img src="https://i.imgur.com/IVPOWqc.png" alt="ClipEscola" onerror="this.style.display='none'">
-  <div class="hr"><div class="hn">Renan Baptistella</div><div class="hs">Customer Success Manager</div></div>
+  <div class="badge">Agendamento</div>
+</div>
+<div class="hero">
+  <div class="hero-tag">Agendamentos ClipEscola</div>
+  <h1>Agendar com Renan Baptistella</h1>
+  <p>Escolha o melhor horário para a sua reunião.</p>
+  <div class="hero-csm">
+    <div class="csm-av">RB</div>
+    <div><div class="csm-name">Renan Baptistella</div><div class="csm-role">Customer Success Manager</div></div>
+  </div>
 </div>
 <div class="wrap">
   <div id="s1" class="card">
     <div class="ttl">Qual tipo de reuniao deseja agendar?</div>
     <div id="type-list">
-      <div class="tc" id="tc0"><span class="tn">Reunião de Treinamento</span><span class="td">(2 horas)</span></div>
-      <div class="tc" id="tc1"><span class="tn">Reunião de Alinhamento</span><span class="td">(1 hora)</span></div>
+      <div class="tc" id="tc0"><span class="tn">Reunião de Treinamento (Agenda)</span><span class="td">(2 horas)</span></div>
+      <div class="tc" id="tc1"><span class="tn">Reunião de Alinhamentos ou Tira-dúvidas</span><span class="td">(1 hora)</span></div>
+      <div class="tc" id="tc2"><span class="tn">Reunião de Módulo Extra</span><span class="td">(1 hora)</span></div>
     </div>
     <button class="btn" id="btn1" disabled style="margin-top:8px">Proximo</button>
   </div>
@@ -64,6 +84,7 @@ input{width:100%;padding:9px 12px;border:1.5px solid #d1d5db;border-radius:8px;f
       <div class="cnav"><button id="prev-m">&#8249;</button><span id="cal-lbl" style="font-size:13px;font-weight:700;min-width:110px;text-align:center"></span><button id="next-m">&#8250;</button></div>
     </div>
     <div id="cal-wrap"></div>
+    <div class="tz-note">&#128336; Todos os horários estão no fuso de São Paulo (GMT-3)</div>
     <div id="tw" class="hd" style="margin-top:16px"><div id="tl" style="font-size:13px;font-weight:700;color:#6b7280;margin-bottom:8px"></div><div id="times" style="display:flex;flex-wrap:wrap;gap:4px"></div></div>
     <div style="display:flex;gap:10px;margin-top:16px"><button class="back" id="back2">&#8592; Voltar</button><button class="btn" id="btn2" disabled>Proximo</button></div>
   </div>
@@ -95,8 +116,8 @@ var CSM_N="Renan Baptistella";
 var CSM_E="renan.clipescola@gmail.com";
 var CSM_ICS="https://calendar.google.com/calendar/ical/renan.clipescola%40gmail.com/private-0b24ae0debef4bc4bbc595f6e5912f23/basic.ics";
 var SHEET="1rwNkmBUlOjfUHbIbHpyHiLfou8tYyJfQbZtz0dwjgwA";
-var MTYPES=[{"id":"mt1","label":"Reunião de Treinamento","duration":120},{"id":"mt2","label":"Reunião de Alinhamento","duration":60}];
-var SBT={"mt1":[{"day":1,"time":"09:30"},{"day":1,"time":"14:30"},{"day":2,"time":"09:00"},{"day":2,"time":"14:30"},{"day":3,"time":"09:30"},{"day":3,"time":"14:30"},{"day":4,"time":"09:00"},{"day":4,"time":"14:30"},{"day":5,"time":"09:30"},{"day":5,"time":"14:00"}],"mt2":[{"day":1,"time":"09:30"},{"day":1,"time":"14:30"},{"day":2,"time":"09:00"},{"day":2,"time":"14:30"},{"day":3,"time":"09:30"},{"day":3,"time":"14:30"},{"day":4,"time":"09:00"},{"day":4,"time":"14:30"},{"day":5,"time":"09:30"},{"day":5,"time":"14:00"}]};
+var MTYPES=[{"id":"mt1","label":"Reunião de Treinamento (Agenda)","duration":120},{"id":"mt2","label":"Reunião de Alinhamentos ou Tira-dúvidas","duration":60},{"id":"mt_1780512216393","label":"Reunião de Módulo Extra","duration":60}];
+var SBT={"mt1":[{"day":1,"time":"09:30"},{"day":1,"time":"14:30"},{"day":2,"time":"14:30"},{"day":3,"time":"09:30"},{"day":3,"time":"14:30"},{"day":4,"time":"09:30"},{"day":4,"time":"14:30"},{"day":5,"time":"09:30"}],"mt2":[{"day":1,"time":"09:00"},{"day":1,"time":"11:00"},{"day":2,"time":"14:00"},{"day":3,"time":"09:00"},{"day":3,"time":"11:00"},{"day":4,"time":"09:00"},{"day":4,"time":"11:00"},{"day":5,"time":"09:00"},{"day":5,"time":"11:00"},{"day":1,"time":"14:00"},{"day":1,"time":"15:30"},{"day":2,"time":"15:30"},{"day":3,"time":"14:00"},{"day":3,"time":"15:30"},{"day":4,"time":"14:00"},{"day":4,"time":"15:30"}],"mt_1780512216393":[{"day":1,"time":"09:00"},{"day":1,"time":"11:00"},{"day":1,"time":"14:00"},{"day":1,"time":"15:30"},{"day":2,"time":"14:00"},{"day":2,"time":"15:30"},{"day":3,"time":"09:00"},{"day":3,"time":"11:00"},{"day":3,"time":"14:00"},{"day":3,"time":"15:30"},{"day":4,"time":"09:00"},{"day":4,"time":"11:00"},{"day":4,"time":"14:00"},{"day":4,"time":"15:30"},{"day":5,"time":"09:00"},{"day":5,"time":"11:00"}]};
 var currentFreeDays={};
 var cy=new Date().getFullYear(),cm=new Date().getMonth();
 var selDate='',selTime='',typeId='',typeName='',typeDur=0;
