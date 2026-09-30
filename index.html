@@ -876,7 +876,7 @@ async function loadAvailability(){
 
   var today=new Date();today.setHours(0,0,0,0);
 
-  for(var i=1;i<=30;i++){
+  for(var i=1;i<=90;i++){
     var d=new Date(today);d.setDate(d.getDate()+i);
     var dow=d.getDay();
     var iso=d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
